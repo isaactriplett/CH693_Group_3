@@ -65,6 +65,8 @@ def CV_grapher(const #Normalizing constant to turn current input into current de
     ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
     ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
     ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
-    ax.set_title(title)
+    
+    if title != None:
+        ax.set_title(title)
 
     plt.show()   # display 'ax'
