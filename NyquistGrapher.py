@@ -14,7 +14,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)     # Configur
 #For a file with two columns, the first being voltage and the second current in mA(not mA/cm^2)
 
 def Nyquist_grapher(const #Normalizing constant to turn current input into current density output if desired
-               ,filenames,title,xlimits,yunits,ylimits,txt):
+               ,filenames,title,xlimits,yunits,ylimits,txt,cycle):
     
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
     ax = fig.add_subplot(111)           # Create a subplot 'ax' in the figure 'fig'. 
@@ -44,22 +44,40 @@ def Nyquist_grapher(const #Normalizing constant to turn current input into curre
     Z5 = []
     Z6 = []
     Z7 = []
+    C1 = []
+    C2 = []
+    C3 = []
+    C4 = []
+    C5 = []
+    C6 = []
+    C7 = []
     #empty lists for larger lists so that the while function below can graph multiple data sets
     colorlist=['g','b','r','y','k','c','m'] #green, blue, red, yellow, black, cyan, magenta
     datalistX=[X1,X2,X3,X4,X5,X6,X7]
     datalistY1=[Y1,Y2,Y3,Y4,Y5,Y6,Y7]
     datalistY2=[Z1,Z2,Z3,Z4,Z5,Z6,Z7]
+    cycles=[C1,C2,C3,C4,C5,C6,C7]
     #meta lists
     i=0
     while(i < len(filenames)):
         if txt == False:
             datalistX[i],datalistY1[i]=np.loadtxt(fname=r"C:\Users\isaac\OneDrive\Documents\Electrochemistry Program\Lab 2\Project 1\Week 1\Data" + filenames[i] + ".csv", delimiter = ',', skiprows=1, unpack=True,
-                   usecols=(0,1,2))
+                   usecols=(0,1,2,5))
                      # Read data from a file scan1.csv and skip the first row.
         elif txt == True:
-            datalistX[i],datalistY1[i],datalistY2[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Lab 2/Project 1/Week 1/Data/" + filenames[i] + ".txt", skiprows=1, unpack=True,
-                   usecols=(0,1,2))
-        ax.plot(datalistY1[i], datalistY2[i]/const, '.', color=colorlist[i],label=filenames[i])
+            datalistX[i],datalistY1[i],datalistY2[i],cycles[i]=np.loadtxt(fname="C:/Users/isaac/OneDrive/Documents/Electrochemistry Program/Lab 2/Project 1/Week 1/Data/" + filenames[i] + ".txt", skiprows=1, unpack=True,
+                   usecols=(0,1,2,5))
+        i2 = 0
+        disposableX = []
+        disposableY1 = []
+        disposableY2 = []
+        while(i2<len(datalistX[i])): #cycle selector functionality
+            if cycles[i][i2] == cycle: #cycles[i][i2] < cycle+0.5 and cycles[i][i2]>cycle-0.5:
+                disposableX = np.append(disposableX,datalistX[i][i2])
+                disposableY1 = np.append(disposableY1,datalistY1[i][i2])
+                disposableY2 = np.append(disposableY2,datalistY2[i][i2])
+            i2 = i2 + 1
+        ax.plot(disposableY1, disposableY2/const, '.', color=colorlist[i],label=filenames[i])
         i = i + 1
         
         #the if statement exists to easily read either csv or txt
