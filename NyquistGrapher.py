@@ -14,7 +14,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)     # Configur
 #For a file with two columns, the first being voltage and the second current in mA(not mA/cm^2)
 
 def Nyquist_grapher(const #Normalizing constant to turn current input into current density output if desired
-               ,filenames,title,xlimits,yunits,ylimits,txt,cycle):
+               ,filenames,title,xlimits,yunits,ylimits,txt,cycle,gridlines):
     
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
     ax = fig.add_subplot(111)           # Create a subplot 'ax' in the figure 'fig'. 
@@ -94,9 +94,10 @@ def Nyquist_grapher(const #Normalizing constant to turn current input into curre
     #ax.set_xlabel('Potential, V')   # set the label of the x-axis
     #ax.set_ylabel('Current, mA/cm^2') # set the label of the y-axis
     #ax.legend(loc='upper left')       # place the legend at the 'upper left'
-    ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
-    ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
-    ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
+    if gridlines == True:
+        ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
+        ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
+        ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
     ax.set_title(title)
 
     plt.show()   # display 'ax'

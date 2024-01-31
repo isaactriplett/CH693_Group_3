@@ -14,7 +14,7 @@ from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)     # Configur
 #same general layout as Nyquist grapher. Make sure to replace my file path with your own.
 
 def CV_grapher(const #Normalizing constant to turn current input into current density output if desired
-               ,filenames,title,xlimits,yunits,ylimits,txt,currentDependence,xcolumn,ycolumn,legend): #txt is true if dealing with a txt file, and false if dealing with a csv
+               ,filenames,title,xlimits,yunits,ylimits,txt,currentDependence,xcolumn,ycolumn,legend,gridlines): #txt is true if dealing with a txt file, and false if dealing with a csv
 #currentDependence: True if current is on the y axis.    
 
     fig = plt.figure(figsize=(8, 6))    # Create a graph 'fig' which has 4 inches in width and 6 inches in height.
@@ -75,9 +75,10 @@ def CV_grapher(const #Normalizing constant to turn current input into current de
     #ax.set_ylabel('Current, mA/cm^2') # set the label of the y-axis
     if legend == True:
         ax.legend(loc='upper left')       # place the legend at the 'upper left'
-    ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
-    ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
-    ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
+    if gridlines == True:
+        ax.xaxis.set_minor_locator(MultipleLocator(10))   # add minor ticks for the x-axis
+        ax.yaxis.set_minor_locator(AutoMinorLocator())    # add minor ticks for the y-axis
+        ax.xaxis.grid(True, which='both') # add grids to the x-axis for both major and minor ticks
     if title != None:
         ax.set_title(title)
 
